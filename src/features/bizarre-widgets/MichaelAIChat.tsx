@@ -1,12 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { formatMichaelTime } from '../../lib/michael-engine';
+import { useAbsurdity } from '../../lib/absurdity-context';
+
+const SYMBOL_POOL = ['φ', 'ψ', 'ℵ', '∂', '∇', 'λ', 'Ω', 'Σ', 'Γ', 'π', 'θ', 'μ', 'ξ', 'ℏ', '⊗'];
 
 export function MichaelAIChat() {
   const [query, setQuery] = useState('');
   const [thinking, setThinking] = useState(false);
   const [response, setResponse] = useState<string | null>(null);
   const [michaelTime, setMichaelTime] = useState(formatMichaelTime(new Date()));
+  const { setNavSymbol } = useAbsurdity();
+  const symbolResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const flashNavSymbol = () => {
+    const sym = SYMBOL_POOL[Math.floor(Math.random() * SYMBOL_POOL.length)];
+    setNavSymbol(sym);
+    if (symbolResetRef.current) clearTimeout(symbolResetRef.current);
+    symbolResetRef.current = setTimeout(() => setNavSymbol('∞'), 2500);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -119,6 +131,7 @@ export function MichaelAIChat() {
           <button
             key={q}
             onClick={() => { setQuery(q); }}
+            onMouseEnter={flashNavSymbol}
             className="text-xs text-gray-600 hover:text-gray-400 border border-gray-800 hover:border-gray-600 px-3 py-1 transition-colors"
           >
             {q}

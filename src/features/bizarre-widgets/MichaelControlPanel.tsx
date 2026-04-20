@@ -25,6 +25,12 @@ export function MichaelControlPanel() {
   const [optimizing, setOptimizing] = useState(false);
   const [optimizationLog, setOptimizationLog] = useState<string[]>([]);
   const [insight, setInsight] = useState(getMichaelInsight());
+  const [shrinking, setShrinking] = useState(false);
+
+  const handleMaxClick = () => {
+    setShrinking(true);
+    setTimeout(() => setShrinking(false), 900);
+  };
 
   const handleOptimize = () => {
     setOptimizing(true);
@@ -55,7 +61,8 @@ export function MichaelControlPanel() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.1 }}
+      animate={{ scale: shrinking ? 0.28 : 1 }}
+      transition={shrinking ? { duration: 0.15, ease: 'easeIn' } : { duration: 0.7, type: 'spring', stiffness: 350, damping: 20 }}
       className="border border-yellow-900/30 p-8"
     >
       <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-1">
@@ -81,7 +88,13 @@ export function MichaelControlPanel() {
         />
         <div className="flex justify-between text-gray-700 text-xs mt-1">
           <span>Low</span>
-          <span>Max</span>
+          <button
+            onClick={handleMaxClick}
+            title="Click to destabilize the panel"
+            className="hover:text-red-500/70 transition-colors cursor-pointer"
+          >
+            Max
+          </button>
         </div>
       </div>
 

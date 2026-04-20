@@ -8,6 +8,10 @@ interface AbsurdityContextType {
   michaelGravityConstant: number;
   quantumFluctuationIntensity: number;
   michaelSecondsElapsed: number;
+  pageTiltDegrees: number;
+  addPageTilt: () => void;
+  navSymbol: string;
+  setNavSymbol: (s: string) => void;
 }
 
 const AbsurdityContext = createContext<AbsurdityContextType | undefined>(undefined);
@@ -17,6 +21,8 @@ export function AbsurdityProvider({ children }: { children: React.ReactNode }) {
   const [piDigitsDisplayed, setPiDigitsDisplayed] = useState(0);
   const [quantumFluctuationIntensity, setQuantumFluctuationIntensity] = useState(0);
   const [michaelSecondsElapsed, setMichaelSecondsElapsed] = useState(0);
+  const [pageTiltDegrees, setPageTiltDegrees] = useState(0);
+  const [navSymbol, setNavSymbol] = useState('∞');
 
   // Calculate Michael Gravity Constant based on pi digits and animation speed
   const michaelGravityConstant = (piDigitsDisplayed + 1) * animationSpeedMultiplier * 9.81;
@@ -34,6 +40,10 @@ export function AbsurdityProvider({ children }: { children: React.ReactNode }) {
     setPiDigitsDisplayed((prev) => prev + 1);
   };
 
+  const addPageTilt = () => {
+    setPageTiltDegrees((prev) => Math.min(prev + 0.5, 8));
+  };
+
   return (
     <AbsurdityContext.Provider
       value={{
@@ -44,6 +54,10 @@ export function AbsurdityProvider({ children }: { children: React.ReactNode }) {
         michaelGravityConstant,
         quantumFluctuationIntensity,
         michaelSecondsElapsed,
+        pageTiltDegrees,
+        addPageTilt,
+        navSymbol,
+        setNavSymbol,
       }}
     >
       {children}

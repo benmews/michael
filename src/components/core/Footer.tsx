@@ -1,7 +1,26 @@
+import { useRef, useState } from 'react';
 import { useAbsurdity } from '../../lib/absurdity-context';
+
+const CHAOS_FORMULAS = [
+  '⟨ undefined | NaN · ∅ = Michael / 0 ⟩',
+  '⟨ ∅∞ | ∂Michael/∂t = δ(λ - π) ⟩',
+  '⟨ M² | ΣΩ = ∫ε dμ ⟩',
+  '⟨ NaN | Michael ∈ ∅ ⟩',
+  '⟨ δ(Michael) | lim→∞ = ??? ⟩',
+  '⟨ iℏ∂Ψ/∂Michael ⟩',
+];
 
 export function Footer() {
   const { piDigitsDisplayed, michaelSecondsElapsed } = useAbsurdity();
+  const [formula, setFormula] = useState('⟨ ℵ∞ | ∇ · θ = 0 | lim(Michael) = ∫ π dε ⟩');
+  const formulaResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scrambleFormula = () => {
+    const chaos = CHAOS_FORMULAS[Math.floor(Math.random() * CHAOS_FORMULAS.length)];
+    setFormula(chaos);
+    if (formulaResetRef.current) clearTimeout(formulaResetRef.current);
+    formulaResetRef.current = setTimeout(() => setFormula('⟨ ℵ∞ | ∇ · θ = 0 | lim(Michael) = ∫ π dε ⟩'), 1500);
+  };
 
   return (
     <footer className="border-t border-yellow-900/20 py-16 px-6 mt-16">
@@ -37,7 +56,11 @@ export function Footer() {
               <ul className="space-y-2">
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-gray-600 text-xs hover:text-yellow-600 transition-colors">
+                    <a
+                      href="#"
+                      onMouseEnter={scrambleFormula}
+                      className="text-gray-600 text-xs hover:text-yellow-600 transition-colors"
+                    >
                       {link}
                     </a>
                   </li>
@@ -60,7 +83,7 @@ export function Footer() {
 
         {/* Scientific footer ornament */}
         <div className="mt-8 text-center text-gray-700/40 text-xs font-mono leading-loose">
-          <p>⟨ ℵ∞ | ∇ · θ = 0 | lim(Michael) = ∫ π dε ⟩</p>
+          <p>{formula}</p>
         </div>
       </div>
     </footer>

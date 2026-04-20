@@ -2,11 +2,24 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useAbsurdity } from '../../lib/absurdity-context';
 
+const CHAOS_LABELS = [
+  'OSCILLATING', 'VOID', 'UNCERTAIN', 'SCHRÖDINGER',
+  'INDETERMINATE', 'BOTH', 'NEITHER', '∅',
+  'DECOHERENT', 'SUPERPOSED', 'COLLAPSED', 'NaN',
+  'UNDEFINED', 'EIGENSTATE', 'ENTANGLED',
+];
+
 export function HeroSection() {
   const [detected, setDetected] = useState(false);
   const [confidence, setConfidence] = useState(0);
   const [elementaryParticleCount, setElementaryParticleCount] = useState(0);
+  const [sideLabels, setSideLabels] = useState(['VERIFIED', 'NOMINAL', 'ALIGNED']);
   const { animationSpeedMultiplier, incrementPiDigits } = useAbsurdity();
+
+  const scrambleLabels = () => {
+    const shuffled = [...CHAOS_LABELS].sort(() => Math.random() - 0.5);
+    setSideLabels([shuffled[0], shuffled[1], shuffled[2]]);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,6 +84,7 @@ export function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={scrambleLabels}
               className="border border-yellow-700/50 text-yellow-500 text-xs tracking-widest uppercase px-6 py-3 hover:bg-yellow-900/20 transition-colors"
             >
               Decoherence Analysis
@@ -144,10 +158,17 @@ export function HeroSection() {
 
           {/* Side annotations */}
           <div className="absolute -right-4 top-1/2 -translate-y-1/2 flex flex-col gap-1">
-            {['VERIFIED', 'NOMINAL', 'ALIGNED'].map((label) => (
-              <div key={label} className="text-yellow-600/40 text-xs tracking-widest writing-mode-vertical" style={{ writingMode: 'vertical-rl' }}>
+            {sideLabels.map((label, i) => (
+              <motion.div
+                key={`${label}-${i}`}
+                initial={{ opacity: 0.4 }}
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 0.5 }}
+                className="text-yellow-600/40 text-xs tracking-widest"
+                style={{ writingMode: 'vertical-rl' }}
+              >
                 {label}
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
