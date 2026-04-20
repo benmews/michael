@@ -14,7 +14,7 @@ export function HeroSection() {
   const [confidence, setConfidence] = useState(0);
   const [elementaryParticleCount, setElementaryParticleCount] = useState(0);
   const [sideLabels, setSideLabels] = useState(['VERIFIED', 'NOMINAL', 'ALIGNED']);
-  const { animationSpeedMultiplier, incrementPiDigits } = useAbsurdity();
+  const { animationSpeedMultiplier, incrementPiDigits, triggerWordScramble } = useAbsurdity();
 
   const scrambleLabels = () => {
     const shuffled = [...CHAOS_LABELS].sort(() => Math.random() - 0.5);
@@ -105,13 +105,19 @@ export function HeroSection() {
               <img
                 src="/michael.jpg"
                 alt="Michael"
-                className="w-full h-full object-cover"
+                onClick={triggerWordScramble}
+                title="Click to initiate semantic decoherence"
+                className="w-full h-full object-cover cursor-pointer"
                 onError={(e) => {
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
               {/* Fallback portrait placeholder */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600">
+              <div
+                onClick={triggerWordScramble}
+                title="Click to initiate semantic decoherence"
+                className="absolute inset-0 flex flex-col items-center justify-center text-gray-600 cursor-pointer"
+              >
                 <svg viewBox="0 0 100 120" className="w-48 h-48 opacity-40">
                   <circle cx="50" cy="35" r="22" fill="currentColor" />
                   <ellipse cx="50" cy="95" rx="38" ry="30" fill="currentColor" />

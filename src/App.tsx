@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { NavBar } from './components/core/NavBar';
 import { HeroSection } from './components/core/HeroSection';
 import { NewsTicker } from './components/core/NewsTicker';
@@ -22,9 +22,42 @@ function TiltingWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Applies word scrambles after EVERY render (before paint) so React re-renders never undo them.
+function WordScrambleOverlay() {
+  const { wordScrambles } = useAbsurdity();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useLayoutEffect(() => {
+    if (wordScrambles.length === 0) return;
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          const p = node.parentElement;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          const tag = p.tagName.toLowerCase();
+          if (['script', 'style', 'input', 'textarea', 'noscript'].includes(tag))
+            return NodeFilter.FILTER_REJECT;
+          return node.textContent?.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        },
+      }
+    );
+    let n: Node | null;
+    while ((n = walker.nextNode()) !== null) {
+      let text = n.textContent || '';
+      let changed = false;
+      for (const { from, to } of wordScrambles) {
+        const re = new RegExp(`\\b${from}\\b`, 'g');
+        if (re.test(text)) { text = text.replace(re, to); changed = true; }
+      }
+      if (changed) n.textContent = text;
+    }
+  }); // intentionally no deps — re-run after every render to persist scrambles
+
 export default function App() {
   return (
     <AbsurdityProvider>
+      <WordScrambleOverlay />
       <TiltingWrapper>
         <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
           <NavBar />
