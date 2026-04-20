@@ -54,42 +54,33 @@ async function fetchGraph(): Promise<{
   setNum: number;
   patch: string;
 }> {
-  const versions: string[] = await fetch(
-    'https://ddragon.leagueoflegends.com/api/versions.json'
+  // CommunityDragon has the full champion+trait data; Data Dragon's tft-champion.json lacks traits
+  const json: {
+    sets: Record<string, {
+      name: string;
+      champions: Array<{ apiName: string; name: string; traits: string[]; cost: number }>;
+      traits: Array<{ apiName: string; name: string }>;
+    }>;
+  } = await fetch(
+    'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
   ).then(r => r.json());
 
-  const patch = versions[0];
+  const sets = json.sets ?? {};
+  const numericKeys = Object.keys(sets).filter(k => /^\d+$/.test(k));
+  if (numericKeys.length === 0) throw new Error('No TFT sets found in CommunityDragon data');
 
-  const json: { data: Record<string, { id: string; name: string; traits?: string[]; tier?: number }> } =
-    await fetch(
-      `https://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/tft-champion.json`
-    ).then(r => r.json());
-
-  const all = Object.values(json.data ?? {});
-  if (all.length === 0) throw new Error('Empty champion data from Data Dragon');
-
-  // Group champions by set prefix and pick the set with the MOST valid champions
-  // (highest set number is unreliable — stray beta/special IDs skew it)
-  const bySets = new Map<number, typeof all>();
-  for (const c of all) {
-    const m = c.id?.match(/^TFT(\d+)_/);
-    if (!m) continue;
-    const n = parseInt(m[1]);
-    if (!bySets.has(n)) bySets.set(n, []);
-    bySets.get(n)!.push(c);
-  }
-
+  // Pick the set with the most valid champions (has traits + name)
   let maxSet = 0;
   let bestCount = 0;
-  for (const [n, champs] of bySets) {
-    const valid = champs.filter(
+  for (const k of numericKeys) {
+    const valid = (sets[k].champions ?? []).filter(
       c => c.name && Array.isArray(c.traits) && c.traits.length > 0
     ).length;
-    if (valid > bestCount) { bestCount = valid; maxSet = n; }
+    if (valid > bestCount) { bestCount = valid; maxSet = parseInt(k); }
   }
   if (maxSet === 0) throw new Error('Could not determine current TFT set');
 
-  const filtered = (bySets.get(maxSet) ?? []).filter(
+  const filtered = (sets[String(maxSet)].champions ?? []).filter(
     c => c.name && Array.isArray(c.traits) && c.traits.length > 0
   );
 
@@ -98,10 +89,10 @@ async function fetchGraph(): Promise<{
 
   // Initial circular layout
   const champions: Champion[] = filtered.map((c, i) => ({
-    id: c.id,
+    id: c.apiName ?? c.name,
     name: c.name,
-    traits: c.traits!,
-    tier: c.tier ?? 1,
+    traits: c.traits,
+    tier: Math.max(1, Math.min(5, c.cost ?? 1)),
     x: SVG_W / 2 + 190 * Math.cos((2 * Math.PI * i) / filtered.length),
     y: SVG_H / 2 + 180 * Math.sin((2 * Math.PI * i) / filtered.length),
   }));
@@ -167,7 +158,7 @@ async function fetchGraph(): Promise<{
   }
 
   const settled = champions.map((c, i) => ({ ...c, x: sim[i].x, y: sim[i].y }));
-  return { champions: settled, edges, setNum: maxSet, patch };
+  return { champions: settled, edges, setNum: maxSet, patch: `Set ${maxSet}` };
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
