@@ -53,6 +53,8 @@ function WordScrambleOverlay() {
       if (changed) n.textContent = text;
     }
   }); // intentionally no deps — re-run after every render to persist scrambles
+  return null;
+}
 
 export default function App() {
   return (
