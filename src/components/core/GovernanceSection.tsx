@@ -33,7 +33,7 @@ export function GovernanceSection() {
               },
               {
                 title: 'Michael Audit Protocol',
-                desc: 'Third-party verification of Michael claims, Michael metrics, and Michael continuity posture. Audit currently pending (since Q1 2024).',
+                desc: 'Third-party verification of Michael claims, Michael metrics, and Michael continuity posture. Audit currently pending (since Q1 2026).',
               },
               {
                 title: 'Michael Incident Response Plan',

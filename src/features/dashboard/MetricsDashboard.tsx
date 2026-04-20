@@ -39,7 +39,7 @@ function MetricCard({ metric, delay }: { metric: MichaelMetric; delay: number })
       <p className="text-gray-500 text-xs tracking-widest uppercase mb-3">{metric.label}</p>
       <div className="flex items-end gap-2">
         <span className="text-3xl font-light text-white font-mono">
-          {typeof metric.value === 'number' ? metric.value : metric.value}
+          {metric.value}
         </span>
         {metric.unit && <span className="text-gray-500 text-sm mb-1">{metric.unit}</span>}
         <span className={`${trendColor} text-lg mb-0.5 ml-auto`}>{trendSymbol}</span>
