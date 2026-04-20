@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useAbsurdity } from '../lib/absurdity-context';
+import { useAbsurdity } from '../../lib/absurdity-context';
 
 const PI_DIGITS = '31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
 

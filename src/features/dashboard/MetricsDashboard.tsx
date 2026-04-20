@@ -12,7 +12,7 @@ function generateMetrics(piDigits: number, gravityConstant: number, animationSpe
     { label: 'Noumenal Manifestation Index', value: 'BOTH/NEITHER', trend: 'lateral' },
     { label: 'Michael Gravity Pull', value: gravityConstant.toFixed(3), unit: 'm/s²', trend: 'up' },
     { label: 'Ontological Coherence', value: (98 - Math.random() * 2).toFixed(1), unit: '%', trend: Math.random() > 0.5 ? 'up' : 'down' },
-    { label: 'Causality Compliance', value: parseFloat((50 + Math.random() * 100).toFixed(1)), unit: '∑/∞', trend: 'undefined' },
+    { label: 'Causality Compliance', value: parseFloat((50 + Math.random() * 100).toFixed(1)), unit: '∑/∞', trend: 'unclear' },
     { label: 'π-Dimensional Resonance', value: impossibleValue.toFixed(2), unit: 'Hz', trend: piDigits > 0 ? 'up' : 'unknown' },
     { label: 'Animation Chronometry Factor', value: animationSpeed.toFixed(2), unit: 'x', trend: animationSpeed > 1 ? 'accelerating' : 'decelerating' },
   ];
@@ -24,13 +24,17 @@ function MetricCard({ metric, delay, onClick }: { metric: MichaelMetric; delay: 
     metric.trend === 'down' ? 'text-red-500' :
     metric.trend === 'accelerating' ? 'text-yellow-500' :
     metric.trend === 'decelerating' ? 'text-orange-500' :
-    metric.trend === 'lateral' ? 'text-blue-500' : 'text-gray-400';
+    metric.trend === 'lateral' ? 'text-blue-500' :
+    metric.trend === 'unclear' ? 'text-purple-500' :
+    metric.trend === 'unknown' ? 'text-cyan-500' : 'text-gray-400';
   const trendSymbol =
     metric.trend === 'up' ? '↑' :
     metric.trend === 'down' ? '↓' :
     metric.trend === 'accelerating' ? '⟿' :
     metric.trend === 'decelerating' ? '⟸' :
-    metric.trend === 'lateral' ? '→' : '?';
+    metric.trend === 'lateral' ? '→' :
+    metric.trend === 'unclear' ? '¿' :
+    metric.trend === 'unknown' ? '?' : '?';
 
   return (
     <motion.div

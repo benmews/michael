@@ -2,7 +2,7 @@ export interface MichaelMetric {
   label: string;
   value: number | string;
   unit?: string;
-  trend?: 'up' | 'down' | 'lateral' | 'unclear';
+  trend?: 'up' | 'down' | 'lateral' | 'unclear' | 'accelerating' | 'decelerating' | 'unknown';
   critical?: boolean;
 }
 
