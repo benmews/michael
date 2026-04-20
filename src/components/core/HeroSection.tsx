@@ -1,25 +1,28 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useAbsurdity } from '../../lib/absurdity-context';
 
 export function HeroSection() {
   const [detected, setDetected] = useState(false);
   const [confidence, setConfidence] = useState(0);
+  const [elementaryParticleCount, setElementaryParticleCount] = useState(0);
+  const { animationSpeedMultiplier, incrementPiDigits } = useAbsurdity();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDetected(true);
       let val = 0;
       const interval = setInterval(() => {
-        val += Math.random() * 12;
+        val += Math.random() * 12 * animationSpeedMultiplier;
         if (val >= 99.9997) {
           val = 99.9997;
           clearInterval(interval);
         }
         setConfidence(parseFloat(val.toFixed(4)));
-      }, 60);
+      }, 60 / animationSpeedMultiplier);
     }, 800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [animationSpeedMultiplier]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
@@ -39,34 +42,38 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
+          transition={{ duration: 1 / animationSpeedMultiplier, ease: 'easeOut' }}
         >
           <p className="text-yellow-600/70 text-xs tracking-widest uppercase mb-4">
-            Michael Systems™ — Global Portfolio
+            Michael Phenomenological Reconfiguration Protocol™ — Trans-Dimensional Taxonomy
           </p>
           <h1 className="text-5xl md:text-6xl font-light text-white leading-tight mb-6">
-            A New Standard<br />
-            <span className="text-yellow-500">in Personal</span><br />
-            Excellence.
+            An Ontological<br />
+            <span className="text-yellow-500">Reconciliation of the</span><br />
+            Michaelic Noumena.
           </h1>
-          <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-md">
-            Michael represents a scalable framework for next-generation outcomes.
-            Our platform delivers Michael-centric alignment at enterprise velocity.
+          <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-md font-light space-y-3">
+            <span className="block">Michael instantiates a trans-phenomenological substrate wherein the categorical imperatives of sentient-being-hood interface dialectically with the aprioristic conditions of Michael-manifestation. Thus conceived, Michael operates not merely as an empirical existent, but rather as the noumenal ground of all possible Michael-related valences.</span>
+            <span className="block text-yellow-600/60">Click particle count to summon π digits →</span>
           </p>
           <div className="flex gap-4 flex-wrap">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => {
+                setElementaryParticleCount(prev => prev + 1);
+                if (elementaryParticleCount % 3 === 0) incrementPiDigits();
+              }}
               className="bg-yellow-600 hover:bg-yellow-500 text-black text-xs tracking-widest uppercase px-6 py-3 transition-colors font-medium"
             >
-              Deploy Michael
+              Quantum Stabilize ({elementaryParticleCount})
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="border border-yellow-700/50 text-yellow-500 text-xs tracking-widest uppercase px-6 py-3 hover:bg-yellow-900/20 transition-colors"
             >
-              View Q3 Michael Report
+              Decoherence Analysis
             </motion.button>
           </div>
         </motion.div>

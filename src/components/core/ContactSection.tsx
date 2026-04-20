@@ -1,7 +1,24 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useAbsurdity } from '../../lib/absurdity-context';
 
 export function ContactSection() {
-  const slots = ['Soon', 'Eventually', 'When Ready', 'Upon Michael Approval', 'TBD'];
+  const { incrementPiDigits, michaelSecondsElapsed } = useAbsurdity();
+  const [selectedDimension, setSelectedDimension] = useState<number>(0);
+
+  const slots = [
+    'Causality Forward',
+    'Causality Reversed',
+    'Simultaneously (Superposition)',
+    'Upon Michael Collapse Event',
+    'Via Quantum Tunneling',
+  ];
+
+  const reports = [
+    { title: 'Transcendental Deduction of Michael Necessity', pages: '∞ pages', note: 'Proof in appendix (appendix absent)' },
+    { title: 'The Michaelic Wavefunction and Its Decoherence', pages: '47 pages', note: 'All equations: {placeholder}' },
+    { title: 'Ontological Risk Assessment & Metaphysical Hedging', pages: 'log(Michael) pages', note: 'Undefined but critical' },
+  ];
 
   return (
     <section id="contact" className="py-32 px-6 border-t border-yellow-900/20">
@@ -13,10 +30,10 @@ export function ContactSection() {
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">Investor Relations</p>
-          <h2 className="text-4xl font-light text-white mb-4">Engage with Michael.</h2>
+          <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">Phenomenological Communication Portal</p>
+          <h2 className="text-4xl font-light text-white mb-4">Access the Michael Manifold.</h2>
           <p className="text-gray-500 max-w-lg">
-            Schedule a Michael consultation. Availability is subject to Michael's operational calendar and current strategic posture.
+            Transmit your polyphonic phenomenological requests through our scalar field encryption protocol. Michael will acknowledge your signal according to non-Euclidean time coordinates.
           </p>
         </motion.div>
 
@@ -27,13 +44,16 @@ export function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-white font-light mb-6">Book a Consultation</h3>
+            <h3 className="text-white font-light mb-6">Quantum Engagement Portal</h3>
             <div className="space-y-4">
               <div>
                 <label className="text-xs tracking-widest uppercase text-gray-500 block mb-2">
-                  Preferred Michael Engagement Window
+                  Preferred Temporal Axis Configuration
                 </label>
-                <select className="w-full bg-black border border-yellow-900/40 text-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-yellow-700/60">
+                <select
+                  onChange={() => incrementPiDigits()}
+                  className="w-full bg-black border border-yellow-900/40 text-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-yellow-700/60"
+                >
                   {slots.map((slot) => (
                     <option key={slot} value={slot}>{slot}</option>
                   ))}
@@ -41,32 +61,47 @@ export function ContactSection() {
               </div>
               <div>
                 <label className="text-xs tracking-widest uppercase text-gray-500 block mb-2">
-                  Your Michael Readiness Level
+                  Your Ontological Synchronization Index
                 </label>
-                <select className="w-full bg-black border border-yellow-900/40 text-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-yellow-700/60">
-                  <option>Curious</option>
-                  <option>Committed</option>
-                  <option>Fully Aligned</option>
-                  <option>Uncertain but present</option>
-                  <option>Enterprise-grade Michael interest</option>
-                </select>
+                <div className="flex gap-2">
+                  {['α', 'β', 'γ', 'δ', 'ε'].map((dim, i) => (
+                    <motion.button
+                      key={dim}
+                      onClick={() => {
+                        setSelectedDimension(i);
+                        incrementPiDigits();
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                      className={`flex-1 py-3 text-xs tracking-widest uppercase border ${
+                        selectedDimension === i
+                          ? 'border-yellow-500 bg-yellow-900/30 text-yellow-400'
+                          : 'border-yellow-900/40 hover:border-yellow-700/60 text-gray-400'
+                      } transition-colors`}
+                    >
+                      {dim}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="text-xs tracking-widest uppercase text-gray-500 block mb-2">
-                  Primary Michael Use Case
+                  Phenomenological Inquiry (Max 9.47 conceptual units)
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g., Strategic alignment, Existential reframing"
-                  className="w-full bg-black border border-yellow-900/40 text-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-yellow-700/60 placeholder-gray-700"
+                <textarea
+                  onClick={() => incrementPiDigits()}
+                  placeholder="Articulate your trans-dimensional Michael-related question..."
+                  className="w-full bg-black border border-yellow-900/40 text-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-yellow-700/60 placeholder-gray-700 h-24"
                 />
               </div>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  incrementPiDigits();
+                }}
                 className="w-full bg-yellow-700/20 border border-yellow-700/50 text-yellow-500 text-xs tracking-widest uppercase py-3 hover:bg-yellow-700/30 transition-colors"
               >
-                Request Michael Time
+                Transmit Through Scalar Field
               </motion.button>
             </div>
           </motion.div>
@@ -79,37 +114,40 @@ export function ContactSection() {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-white font-light mb-4">Download Reports</h3>
+              <h3 className="text-white font-light mb-4">Metaphysical Codices & Verifications</h3>
               <div className="space-y-3">
-                {[
-                  { title: 'Q3 Michael Performance Report', pages: '1 page', note: 'Includes 1 chart (units unclear)' },
-                  { title: 'Annual Michael Outlook 2025', pages: '3 pages', note: 'Executive summary only' },
-                  { title: 'Michael Risk Disclosure Statement', pages: '2 pages', note: 'Mostly definitions' },
-                ].map((doc) => (
-                  <div
+                {reports.map((doc) => (
+                  <motion.div
                     key={doc.title}
-                    className="flex items-center justify-between border border-yellow-900/30 px-4 py-3 hover:border-yellow-700/40 transition-colors group cursor-pointer"
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => incrementPiDigits()}
+                    className="flex items-center justify-between border border-yellow-900/30 px-4 py-3 hover:border-yellow-500/40 transition-colors group cursor-pointer"
                   >
                     <div>
                       <p className="text-gray-300 text-sm">{doc.title}</p>
                       <p className="text-gray-600 text-xs mt-0.5">{doc.pages} · {doc.note}</p>
                     </div>
                     <span className="text-yellow-600/50 group-hover:text-yellow-500 transition-colors text-xs tracking-widest uppercase">
-                      PDF ↓
+                      φΩ ↓
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
 
-            <div className="border border-yellow-900/30 p-6 bg-yellow-950/10">
-              <p className="text-yellow-600/70 text-xs tracking-widest uppercase mb-2">Michael Compliance Notice</p>
+            <motion.div
+              animate={{ borderColor: ['rgba(201,168,76,0.3)', 'rgba(201,168,76,0.6)', 'rgba(201,168,76,0.3)'] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="border-2 p-6 bg-yellow-950/10"
+            >
+              <p className="text-yellow-600/70 text-xs tracking-widest uppercase mb-2">Transcendental Notice of Interface</p>
               <p className="text-gray-500 text-xs leading-relaxed">
-                Engagement with Michael Systems™ is subject to the Michael Terms of Service,
-                Michael Interaction Guidelines, and applicable Michael governance protocols.
-                By proceeding, you acknowledge that Michael is the primary variable.
+                Your transmission through this portal constitutes acknowledgment that Michael operates under principles of trans-normative governance. Response latency exhibits Poisson distribution with mean = ∞. We disclaim all causal responsibility.
               </p>
-            </div>
+              <p className="text-yellow-600/50 text-xxs mt-3 italic">
+                MichaelSeconds Elapsed: {michaelSecondsElapsed} | Portal Coherence: {(Math.sin(michaelSecondsElapsed) * 50 + 50).toFixed(1)}%
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </div>
