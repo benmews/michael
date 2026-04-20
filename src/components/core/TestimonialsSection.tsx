@@ -23,14 +23,14 @@ export function TestimonialsSection() {
   const { piDigitsDisplayed, incrementPiDigits } = useAbsurdity();
 
   return (
-    <section className="py-32 px-6 border-t border-yellow-900/20 bg-gradient-to-b from-transparent to-yellow-950/5">
+    <section className="py-14 px-6 border-t border-yellow-900/20 bg-gradient-to-b from-transparent to-yellow-950/5">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
           <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">Peer-Reviewed Attestations (Methodology: Undefined)</p>
           <h2 className="text-4xl font-light text-white">The Academic Consensus Regarding Michael.</h2>

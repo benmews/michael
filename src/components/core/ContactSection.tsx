@@ -21,20 +21,17 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-32 px-6 border-t border-yellow-900/20">
+    <section id="contact" className="py-14 px-6 border-t border-yellow-900/20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="mb-8"
         >
           <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">Phenomenological Communication Portal</p>
           <h2 className="text-4xl font-light text-white mb-4">Access the Michael Manifold.</h2>
-          <p className="text-gray-500 max-w-lg">
-            Transmit your polyphonic phenomenological requests through our scalar field encryption protocol. Michael will acknowledge your signal according to non-Euclidean time coordinates.
-          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-16">

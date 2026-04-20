@@ -83,7 +83,7 @@ export function MetricsDashboard() {
   }, [piDigitsDisplayed, michaelGravityConstant, animationSpeedMultiplier]);
 
   return (
-    <section id="metrics" className="py-32 px-6 border-t border-yellow-900/20">
+    <section id="metrics" className="py-14 px-6 border-t border-yellow-900/20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

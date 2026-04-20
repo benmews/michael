@@ -9,6 +9,29 @@ const CHAOS_LABELS = [
   'UNDEFINED', 'EIGENSTATE', 'ENTANGLED',
 ];
 
+const FLASH_COLORS = [
+  '#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#fd9644',
+  '#a29bfe', '#fd79a8', '#00cec9', '#e17055', '#74b9ff',
+];
+
+function quantumColorFlash() {
+  const candidates = Array.from(
+    document.querySelectorAll('h1, h2, h3, button, a, label, .font-mono')
+  ).filter(el => (el as HTMLElement).offsetParent !== null && el.textContent?.trim()) as HTMLElement[];
+  const picked = candidates.sort(() => Math.random() - 0.5).slice(0, 3);
+  const originals = picked.map(el => ({ el, color: el.style.color, transition: el.style.transition }));
+  for (const el of picked) {
+    el.style.transition = 'color 0.15s';
+    el.style.color = FLASH_COLORS[Math.floor(Math.random() * FLASH_COLORS.length)];
+  }
+  setTimeout(() => {
+    for (const { el, color, transition } of originals) {
+      el.style.color = color;
+      el.style.transition = transition;
+    }
+  }, 2000);
+}
+
 export function HeroSection() {
   const [detected, setDetected] = useState(false);
   const [confidence, setConfidence] = useState(0);
@@ -50,29 +73,27 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <div className="relative max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
         {/* Text */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 / animationSpeedMultiplier, ease: 'easeOut' }}
         >
-          <p className="text-yellow-600/70 text-xs tracking-widest uppercase mb-4">
-            Michael Phenomenological Reconfiguration Protocol™ — Trans-Dimensional Taxonomy
-          </p>
-          <h1 className="text-5xl md:text-6xl font-light text-white leading-tight mb-6">
+          <p className="text-yellow-600/70 text-xs tracking-widest uppercase mb-3">Michael Phenomenological Reconfiguration Protocol™</p>
+          <h1 className="text-5xl md:text-6xl font-light text-white leading-tight mb-4">
             An Ontological<br />
             <span className="text-yellow-500">Reconciliation of the</span><br />
             Michaelic Noumena.
           </h1>
-          <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-md font-light space-y-3">
-            <span className="block">Michael instantiates a trans-phenomenological substrate wherein the categorical imperatives of sentient-being-hood interface dialectically with the aprioristic conditions of Michael-manifestation. Thus conceived, Michael operates not merely as an empirical existent, but rather as the noumenal ground of all possible Michael-related valences.</span>
-            <span className="block text-yellow-600/60">Click particle count to summon π digits →</span>
+          <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-md font-light">
+            Michael operates not merely as an empirical existent, but as the noumenal ground of all possible Michael-related valences.
           </p>
           <div className="flex gap-4 flex-wrap">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onMouseEnter={quantumColorFlash}
               onClick={() => {
                 setElementaryParticleCount(prev => prev + 1);
                 if (elementaryParticleCount % 3 === 0) incrementPiDigits();

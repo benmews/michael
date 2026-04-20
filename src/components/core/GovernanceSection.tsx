@@ -26,14 +26,14 @@ export function GovernanceSection() {
   ];
 
   return (
-    <section id="governance" className="py-32 px-6 border-t border-yellow-900/20">
+    <section id="governance" className="py-14 px-6 border-t border-yellow-900/20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="mb-8"
         >
           <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">
             Transcendental Field Harmonization & Systemic Authority Morphodynamics
@@ -41,9 +41,6 @@ export function GovernanceSection() {
           <h2 className="text-4xl font-light text-white mb-4">
             The Michael Nomic Architecture
           </h2>
-          <p className="text-gray-500 max-w-2xl">
-            The governing principles which structure Michael's trans-phenomenological instantiation demand a substantive reconceptualization of authority itself. Conventional hierarchies dissolve into laminar flows of distributed decision-matrices, wherein agency becomes fundamentally indeterminate and responsibility achieves a quantum-mechanical superposition of both attribution and deferral.
-          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">

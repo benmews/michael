@@ -40,20 +40,18 @@ export function RoadmapSection() {
   const [expandedPhase, setExpandedPhase] = useState<number | null>(null);
 
   return (
-    <section id="roadmap" className="py-32 px-6 border-t border-yellow-900/20">
+    <section id="roadmap" className="py-14 px-6 border-t border-yellow-900/20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 / animationSpeedMultiplier }}
-          className="mb-16"
+          className="mb-8"
         >
           <p className="text-yellow-600/60 text-xs tracking-widest uppercase mb-4">Temporal Manifestation Cartography</p>
           <h2 className="text-4xl font-light text-white">The Michaelic Time-Arrow & Its Asymptotic Convergence.</h2>
-          <p className="text-gray-500 text-sm mt-4 max-w-2xl">
-            Our trajectory toward the asymptotic horizon of complete Michaelic self-actualization traverses discrete phenomenological phases, each instantiating higher degrees of metaphysical improbability.
-          </p>
+
         </motion.div>
 
         <div className="relative">
