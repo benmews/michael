@@ -68,20 +68,29 @@ async function fetchGraph(): Promise<{
   const all = Object.values(json.data ?? {});
   if (all.length === 0) throw new Error('Empty champion data from Data Dragon');
 
-  // Find highest TFT set number (current set)
-  let maxSet = 0;
+  // Group champions by set prefix and pick the set with the MOST valid champions
+  // (highest set number is unreliable — stray beta/special IDs skew it)
+  const bySets = new Map<number, typeof all>();
   for (const c of all) {
     const m = c.id?.match(/^TFT(\d+)_/);
-    if (m) maxSet = Math.max(maxSet, parseInt(m[1]));
+    if (!m) continue;
+    const n = parseInt(m[1]);
+    if (!bySets.has(n)) bySets.set(n, []);
+    bySets.get(n)!.push(c);
+  }
+
+  let maxSet = 0;
+  let bestCount = 0;
+  for (const [n, champs] of bySets) {
+    const valid = champs.filter(
+      c => c.name && Array.isArray(c.traits) && c.traits.length > 0
+    ).length;
+    if (valid > bestCount) { bestCount = valid; maxSet = n; }
   }
   if (maxSet === 0) throw new Error('Could not determine current TFT set');
 
-  const filtered = all.filter(
-    c =>
-      c.id?.startsWith(`TFT${maxSet}_`) &&
-      c.name &&
-      Array.isArray(c.traits) &&
-      c.traits.length > 0
+  const filtered = (bySets.get(maxSet) ?? []).filter(
+    c => c.name && Array.isArray(c.traits) && c.traits.length > 0
   );
 
   if (filtered.length < 5)
