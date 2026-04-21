@@ -69,16 +69,8 @@ async function fetchGraph(): Promise<{
   const numericKeys = Object.keys(sets).filter(k => /^\d+$/.test(k));
   if (numericKeys.length === 0) throw new Error('No TFT sets found in CommunityDragon data');
 
-  // Pick the set with the most valid champions (has traits + name)
-  let maxSet = 0;
-  let bestCount = 0;
-  for (const k of numericKeys) {
-    const valid = (sets[k].champions ?? []).filter(
-      c => c.name && Array.isArray(c.traits) && c.traits.length > 0
-    ).length;
-    if (valid > bestCount) { bestCount = valid; maxSet = parseInt(k); }
-  }
-  if (maxSet === 0) throw new Error('Could not determine current TFT set');
+  // Use the highest-numbered set (= current set in CommunityDragon)
+  const maxSet = Math.max(...numericKeys.map(Number));
 
   const filtered = (sets[String(maxSet)].champions ?? []).filter(
     c => c.name && Array.isArray(c.traits) && c.traits.length > 0
