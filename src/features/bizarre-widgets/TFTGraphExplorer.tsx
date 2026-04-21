@@ -366,21 +366,6 @@ export function TFTGraphExplorer() {
                   strokeWidth={1}
                 />
 
-                {/* Small trait-colored orbital dots */}
-                {c.traits.slice(0, 3).map((t, ti) => {
-                  const angle = (Math.PI * 2 * ti) / c.traits.length - Math.PI / 2;
-                  const dr = r + 4;
-                  return (
-                    <circle
-                      key={t}
-                      cx={dr * Math.cos(angle)}
-                      cy={dr * Math.sin(angle)}
-                      r={1.8}
-                      fill={traitColor(t)}
-                    />
-                  );
-                })}
-
                 {/* Label on hover or selection */}
                 {(isHov || isSel) && (
                   <text
@@ -447,7 +432,7 @@ export function TFTGraphExplorer() {
           </span>
         ))}
         <span className="text-gray-800 text-xs font-mono ml-auto">
-          orbiting dots = trait affiliation
+          edge color = shared trait · click node for traits
         </span>
       </div>
     </motion.div>
